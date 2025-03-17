@@ -1,0 +1,35 @@
+[tool.poetry]
+name = "ntt-data-engenharia-de-dados-com-python"
+version = "0.1.0"
+description = ""
+authors = ["Julio Okuda <julio.okuda@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^3.8.0"
+isort = "^5.13.2"
+black = "^24.8.0"
+flake8 = "^7.1.1"
+taskipy = "^1.13.0"
+pytest = "^8.3.3"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+# Adicionando a configuração ao pyproject.toml para evitar conflitos
+[tool.isort]
+profile = "black"
+
+# Ignorar a verificação da pasta .env
+[tool.flake8]
+exclude = ".venv"
+
+# lib para automatizar tarefas
+[tool.taskipy.tasks]
+format = "isort .&&black .&&flake8" #verifica a formatação do código na sequência.
