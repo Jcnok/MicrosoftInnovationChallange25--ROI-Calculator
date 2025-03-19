@@ -1,2 +1,3 @@
 streamlit == 1.43.2
 crewai == 0.108.0
+sqlite3 >= 3.35.0
