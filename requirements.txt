@@ -1,3 +1,2 @@
 streamlit == 1.43.2
-matplotlib == 3.10.1
-crewai == >=3.10 and <3.13
+crewai == 0.108.0
