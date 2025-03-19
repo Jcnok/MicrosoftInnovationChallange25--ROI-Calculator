@@ -1,21 +1,22 @@
-import streamlit as st
+# importa as libs
 import os
-from dotenv import load_dotenv
-from crewai import Agent, Task, Crew, Process, LLM
-from langchain_openai import AzureChatOpenAI
 import numpy as np
 import pandas as pd
-import re
+import streamlit as st
+from crewai import LLM, Agent, Task
+from dotenv import load_dotenv
 
 # Carrega as variáveis de ambiente do arquivo .env
 load_dotenv()
 
 # Configurações da OpenAI Azure
-llm = LLM(model="azure/gpt-4o-mini",
-         api_base=os.getenv("AZURE_OPENAI_ENDPOINT"),
-         api_key=os.getenv("AZURE_OPENAI_KEY"),
-         temperature=0.1
-         )
+llm = LLM(
+    model="azure/gpt-4o-mini",
+    api_base=os.getenv("AZURE_OPENAI_ENDPOINT"),
+    api_key=os.getenv("AZURE_OPENAI_KEY"),
+    temperature=0.1,
+)
+
 
 # --- Funções para cálculos de KPIs ---
 def calcular_roi(investimento: float, retorno: float) -> float:
@@ -32,6 +33,7 @@ def calcular_roi(investimento: float, retorno: float) -> float:
         return np.inf
     return ((retorno - investimento) / investimento) * 100
 
+
 def calcular_vpl(taxa_desconto: float, fluxos_caixa: list) -> float:
     """Calcula o Valor Presente Líquido (VPL).
 
@@ -44,24 +46,25 @@ def calcular_vpl(taxa_desconto: float, fluxos_caixa: list) -> float:
     """
     vpl = 0
     for i, fluxo in enumerate(fluxos_caixa):
-        vpl += fluxo / (1 + taxa_desconto/100)**i
+        vpl += fluxo / (1 + taxa_desconto / 100) ** i
     return vpl
+
 
 # --- Agente de Cálculo de KPIs ---
 class KPICalculatorAgent:
     """Um agente para calcular KPIs financeiros de projetos."""
+
     def __init__(self, llm: LLM):
         """Inicializa o KPICalculatorAgent.
-
         Args:
             llm (LLM): O modelo de linguagem grande a ser usado pelo agente.
         """
         self.agent = Agent(
-            role='Especialista em Análise Financeira',
-            goal='Calcular KPIs financeiros precisos para avaliar projetos.',
+            role="Especialista em Análise Financeira",
+            goal="Calcular KPIs financeiros precisos para avaliar projetos.",
             verbose=True,
             llm=llm,
-            backstory="Você é um analista financeiro experiente com um histórico comprovado de avaliação de projetos e identificação de oportunidades de investimento."
+            backstory="Você é um analista financeiro experiente com um histórico comprovado de avaliação de projetos e identificação de oportunidades de investimento.",
         )
 
     def calculate_kpis(self, data: dict) -> dict:
@@ -73,30 +76,35 @@ class KPICalculatorAgent:
         Returns:
             dict: Um dicionário contendo os KPIs calculados.
         """
-        orcamento = data['orcamento']
-        duracao = data['duracao']
-        custo_treinamento = data['custo_treinamento']
-        custo_implementacao = data['custo_implementacao']
-        economia_custos = data['economia_custos']
-        aumento_receita = data['aumento_receita']
-        taxa_desconto = data['taxa_desconto']
+        orcamento = data["orcamento"]
+        duracao = data["duracao"]
+        custo_treinamento = data["custo_treinamento"]
+        custo_implementacao = data["custo_implementacao"]
+        economia_custos = data["economia_custos"]
+        aumento_receita = data["aumento_receita"]
+        taxa_desconto = data["taxa_desconto"]
 
         investimento_total = orcamento + custo_treinamento + custo_implementacao
         retorno_total = (economia_custos * duracao) + (aumento_receita * duracao)
 
         roi = calcular_roi(investimento_total, retorno_total)
-        vpl = calcular_vpl(taxa_desconto, [-investimento_total] + [(economia_custos + aumento_receita)] * duracao)
+        vpl = calcular_vpl(
+            taxa_desconto,
+            [-investimento_total] + [(economia_custos + aumento_receita)] * duracao,
+        )
 
         return {
             "ROI": f"{roi:.2f}",
             "VPL": f"{vpl:.2f}",
             "Investimento Total": f"{investimento_total:.2f}",
-            "Retorno Total": f"{retorno_total:.2f}"
+            "Retorno Total": f"{retorno_total:.2f}",
         }
+
 
 # --- Agente de Análise de Resultados ---
 class ResultAnalyzerAgent:
     """Um agente para analisar os resultados dos KPIs e fornecer insights."""
+
     def __init__(self, llm: LLM):
         """Inicializa o ResultAnalyzerAgent.
 
@@ -104,11 +112,11 @@ class ResultAnalyzerAgent:
             llm (LLM): O modelo de linguagem grande a ser usado pelo agente.
         """
         self.agent = Agent(
-            role='Analista de Projetos Sênior',
-            goal='Analisar os KPIs e dados de projetos para fornecer insights valiosos e recomendações acionáveis. Forneça análises concisas e bem formatadas, evitando quebras de linha desnecessárias.',
+            role="Analista de Projetos Sênior",
+            goal="Analisar os KPIs e dados de projetos para fornecer insights valiosos e recomendações acionáveis. Forneça análises concisas e bem formatadas, evitando quebras de linha desnecessárias.",
             verbose=True,
             llm=llm,
-            backstory="Você é um analista de projetos experiente, com um olhar crítico para detalhes e uma capacidade de transformar dados em estratégias eficazes."
+            backstory="Você é um analista de projetos experiente, com um olhar crítico para detalhes e uma capacidade de transformar dados em estratégias eficazes.",
         )
 
     def create_analysis_task(self, kpis: dict, data: dict) -> Task:
@@ -121,15 +129,15 @@ class ResultAnalyzerAgent:
         Returns:
             Task: A tarefa de análise criada.
         """
-        orcamento = data['orcamento']
-        funcionarios = data['funcionarios']
-        duracao = data['duracao']
-        custo_treinamento = data['custo_treinamento']
-        custo_implementacao = data['custo_implementacao']
-        economia_custos = data['economia_custos']
-        aumento_receita = data['aumento_receita']
-        taxa_desconto = data['taxa_desconto']
-        risco_falha = data['risco_falha']
+        orcamento = data["orcamento"]
+        funcionarios = data["funcionarios"]
+        duracao = data["duracao"]
+        custo_treinamento = data["custo_treinamento"]
+        custo_implementacao = data["custo_implementacao"]
+        economia_custos = data["economia_custos"]
+        aumento_receita = data["aumento_receita"]
+        taxa_desconto = data["taxa_desconto"]
+        risco_falha = data["risco_falha"]
 
         return Task(
             description=f"""Analise os seguintes KPIs do projeto:
@@ -155,7 +163,7 @@ class ResultAnalyzerAgent:
             Mantenha a formatação concisa e evite quebras de linha desnecessárias.
             """,
             expected_output="Uma análise detalhada do projeto, com insights, problemas potenciais, sugestões de melhoria e recomendações, formatada de forma clara e concisa.",
-            agent=self.agent
+            agent=self.agent,
         )
 
     def analyze_project(self, kpis: dict, data: dict) -> str:
@@ -171,9 +179,11 @@ class ResultAnalyzerAgent:
         task = self.create_analysis_task(kpis, data)
         return self.agent.execute_task(task)
 
+
 # --- Agente de Comparação de Projetos ---
 class ProjectComparatorAgent:
     """Um agente para comparar projetos com base em KPIs e análises."""
+
     def __init__(self, llm: LLM):
         """Inicializa o ProjectComparatorAgent.
 
@@ -181,14 +191,20 @@ class ProjectComparatorAgent:
             llm (LLM): O modelo de linguagem grande a ser usado pelo agente.
         """
         self.agent = Agent(
-            role='Especialista em Tomada de Decisões Estratégicas',
-            goal='Comparar projetos com base em KPIs e análises para recomendar a melhor opção.',
+            role="Especialista em Tomada de Decisões Estratégicas",
+            goal="Comparar projetos com base em KPIs e análises para recomendar a melhor opção.",
             verbose=True,
             llm=llm,
-            backstory="Você é um líder estratégico com uma habilidade excepcional para avaliar opções, pesar prós e contras, e tomar decisões informadas que impulsionam o sucesso."
+            backstory="Você é um líder estratégico com uma habilidade excepcional para avaliar opções, pesar prós e contras, e tomar decisões informadas que impulsionam o sucesso.",
         )
 
-    def compare_projects(self, projeto_a_analise: str, projeto_b_analise: str, projeto_a_kpis: dict, projeto_b_kpis: dict) -> str:
+    def compare_projects(
+        self,
+        projeto_a_analise: str,
+        projeto_b_analise: str,
+        projeto_a_kpis: dict,
+        projeto_b_kpis: dict,
+    ) -> str:
         """Compara os projetos com base nas análises e KPIs.
 
         Args:
@@ -218,9 +234,10 @@ class ProjectComparatorAgent:
             Recomende o melhor projeto com base na análise comparativa e justifique sua recomendação.
             """,
             expected_output="Uma comparação detalhada dos projetos, destacando vantagens e desvantagens, e uma recomendação clara com justificativa.",
-            agent=self.agent
+            agent=self.agent,
         )
         return self.agent.execute_task(task)
+
 
 # --- Frontend Streamlit ---
 st.set_page_config(layout="wide")
@@ -231,9 +248,15 @@ menu = st.sidebar.radio("Navegação", ["Página Inicial", "Calculadora de ROI",
 
 if menu == "Página Inicial":
     st.title("Bem-vindo ao ROI Vision! 🚀")
-    st.write("Este projeto foi desenvolvido para o Hackathon da Microsoft e tem como objetivo fornecer uma ferramenta inteligente para análise e comparação de projetos.")
-    st.write("Utilizando inteligência artificial, o ROI Vision calcula KPIs financeiros cruciais, analisa os resultados e compara projetos, auxiliando na tomada de decisões estratégicas.")
-    st.write("Navegue até a seção 'Calculadora de ROI' para começar a analisar seus projetos!")
+    st.write(
+        "Este projeto foi desenvolvido para o Hackathon da Microsoft e tem como objetivo fornecer uma ferramenta inteligente para análise e comparação de projetos."
+    )
+    st.write(
+        "Utilizando inteligência artificial, o ROI Vision calcula KPIs financeiros cruciais, analisa os resultados e compara projetos, auxiliando na tomada de decisões estratégicas."
+    )
+    st.write(
+        "Navegue até a seção 'Calculadora de ROI' para começar a analisar seus projetos!"
+    )
 
 elif menu == "Calculadora de ROI":
     st.title("Calculadora de ROI Comparativa com IA 📊")
@@ -244,28 +267,118 @@ elif menu == "Calculadora de ROI":
     # Dados do Projeto A na primeira coluna
     with col1:
         st.header("Projeto A 🚀")
-        orcamento_a = st.number_input("Orçamento 💰", value=100000.0, key="orcamento_a", help="Orçamento total previsto para o projeto.")
-        funcionarios_a = st.number_input("Número de Funcionários Impactados 🧑‍🤝‍🧑", value=100, key="funcionarios_a", help="Número de funcionários diretamente impactados pelo projeto.")
-        duracao_a = st.number_input("Duração (meses) ⏳", value=12, key="duracao_a", help="Duração estimada do projeto em meses.")
-        custo_treinamento_a = st.number_input("Custo de Treinamento 📚", value=5000.0, key="custo_treinamento_a", help="Custo total com treinamento para o projeto.")
-        custo_implementacao_a = st.number_input("Custo de Implementação 🛠️", value=10000.0, key="custo_implementacao_a", help="Custo total com a implementação do projeto.")
-        economia_custos_a = st.number_input("Economia de Custos 📉", value=8000.0, key="economia_custos_a", help="Economia de custos mensal esperada após a implementação do projeto.")
-        aumento_receita_a = st.number_input("Aumento de Receita 📈", value=15000.0, key="aumento_receita_a", help="Aumento de receita mensal esperado após a implementação do projeto.")
-        taxa_desconto_a = st.number_input("Taxa de Desconto (%) ✂️", value=10.0, key="taxa_desconto_a", help="Taxa de desconto anual a ser utilizada no cálculo do VPL.")
-        risco_falha_a = st.number_input("Risco de Falha (%) ⚠️", value=5.0, key="risco_falha_a", help="Probabilidade estimada de falha do projeto.")
+        orcamento_a = st.number_input(
+            "Orçamento 💰",
+            value=100000.0,
+            key="orcamento_a",
+            help="Orçamento total previsto para o projeto.",
+        )
+        funcionarios_a = st.number_input(
+            "Número de Funcionários Impactados 🧑‍🤝‍🧑",
+            value=100,
+            key="funcionarios_a",
+            help="Número de funcionários diretamente impactados pelo projeto.",
+        )
+        duracao_a = st.number_input(
+            "Duração (meses) ⏳",
+            value=12,
+            key="duracao_a",
+            help="Duração estimada do projeto em meses.",
+        )
+        custo_treinamento_a = st.number_input(
+            "Custo de Treinamento 📚",
+            value=5000.0,
+            key="custo_treinamento_a",
+            help="Custo total com treinamento para o projeto.",
+        )
+        custo_implementacao_a = st.number_input(
+            "Custo de Implementação 🛠️",
+            value=10000.0,
+            key="custo_implementacao_a",
+            help="Custo total com a implementação do projeto.",
+        )
+        economia_custos_a = st.number_input(
+            "Economia de Custos 📉",
+            value=8000.0,
+            key="economia_custos_a",
+            help="Economia de custos mensal esperada após a implementação do projeto.",
+        )
+        aumento_receita_a = st.number_input(
+            "Aumento de Receita 📈",
+            value=15000.0,
+            key="aumento_receita_a",
+            help="Aumento de receita mensal esperado após a implementação do projeto.",
+        )
+        taxa_desconto_a = st.number_input(
+            "Taxa de Desconto (%) ✂️",
+            value=10.0,
+            key="taxa_desconto_a",
+            help="Taxa de desconto anual a ser utilizada no cálculo do VPL.",
+        )
+        risco_falha_a = st.number_input(
+            "Risco de Falha (%) ⚠️",
+            value=5.0,
+            key="risco_falha_a",
+            help="Probabilidade estimada de falha do projeto.",
+        )
 
     # Dados do Projeto B na segunda coluna
     with col2:
         st.header("Projeto B 🎯")
-        orcamento_b = st.number_input("Orçamento 💰", value=150000.0, key="orcamento_b", help="Orçamento total previsto para o projeto.")
-        funcionarios_b = st.number_input("Número de Funcionários Impactados 🧑‍🤝‍🧑", value=150, key="funcionarios_b", help="Número de funcionários diretamente impactados pelo projeto.")
-        duracao_b = st.number_input("Duração (meses) ⏳", value=18, key="duracao_b", help="Duração estimada do projeto em meses.")
-        custo_treinamento_b = st.number_input("Custo de Treinamento 📚", value=7000.0, key="custo_treinamento_b", help="Custo total com treinamento para o projeto.")
-        custo_implementacao_b = st.number_input("Custo de Implementação 🛠️", value=12000.0, key="custo_implementacao_b", help="Custo total com a implementação do projeto.")
-        economia_custos_b = st.number_input("Economia de Custos 📉", value=10000.0, key="economia_custos_b", help="Economia de custos mensal esperada após a implementação do projeto.")
-        aumento_receita_b = st.number_input("Aumento de Receita 📈", value=20000.0, key="aumento_receita_b", help="Aumento de receita mensal esperado após a implementação do projeto.")
-        taxa_desconto_b = st.number_input("Taxa de Desconto (%) ✂️", value=12.0, key="taxa_desconto_b", help="Taxa de desconto anual a ser utilizada no cálculo do VPL.")
-        risco_falha_b = st.number_input("Risco de Falha (%) ⚠️", value=8.0, key="risco_falha_b", help="Probabilidade estimada de falha do projeto.")
+        orcamento_b = st.number_input(
+            "Orçamento 💰",
+            value=150000.0,
+            key="orcamento_b",
+            help="Orçamento total previsto para o projeto.",
+        )
+        funcionarios_b = st.number_input(
+            "Número de Funcionários Impactados 🧑‍🤝‍🧑",
+            value=150,
+            key="funcionarios_b",
+            help="Número de funcionários diretamente impactados pelo projeto.",
+        )
+        duracao_b = st.number_input(
+            "Duração (meses) ⏳",
+            value=18,
+            key="duracao_b",
+            help="Duração estimada do projeto em meses.",
+        )
+        custo_treinamento_b = st.number_input(
+            "Custo de Treinamento 📚",
+            value=7000.0,
+            key="custo_treinamento_b",
+            help="Custo total com treinamento para o projeto.",
+        )
+        custo_implementacao_b = st.number_input(
+            "Custo de Implementação 🛠️",
+            value=12000.0,
+            key="custo_implementacao_b",
+            help="Custo total com a implementação do projeto.",
+        )
+        economia_custos_b = st.number_input(
+            "Economia de Custos 📉",
+            value=10000.0,
+            key="economia_custos_b",
+            help="Economia de custos mensal esperada após a implementação do projeto.",
+        )
+        aumento_receita_b = st.number_input(
+            "Aumento de Receita 📈",
+            value=20000.0,
+            key="aumento_receita_b",
+            help="Aumento de receita mensal esperado após a implementação do projeto.",
+        )
+        taxa_desconto_b = st.number_input(
+            "Taxa de Desconto (%) ✂️",
+            value=12.0,
+            key="taxa_desconto_b",
+            help="Taxa de desconto anual a ser utilizada no cálculo do VPL.",
+        )
+        risco_falha_b = st.number_input(
+            "Risco de Falha (%) ⚠️",
+            value=8.0,
+            key="risco_falha_b",
+            help="Probabilidade estimada de falha do projeto.",
+        )
 
     dados_projeto_a = {
         "orcamento": orcamento_a,
@@ -301,28 +414,64 @@ elif menu == "Calculadora de ROI":
         kpis_projeto_b = kpi_calculator.calculate_kpis(dados_projeto_b)
 
         # Analisar projetos
-        analise_resultado_a = result_analyzer.analyze_project(kpis_projeto_a, dados_projeto_a)
-        analise_resultado_b = result_analyzer.analyze_project(kpis_projeto_b, dados_projeto_b)
+        analise_resultado_a = result_analyzer.analyze_project(
+            kpis_projeto_a, dados_projeto_a
+        )
+        analise_resultado_b = result_analyzer.analyze_project(
+            kpis_projeto_b, dados_projeto_b
+        )
 
         # Comparar projetos
-        comparacao_projetos = project_comparator.compare_projects(analise_resultado_a, analise_resultado_b, kpis_projeto_a, kpis_projeto_b)
+        comparacao_projetos = project_comparator.compare_projects(
+            analise_resultado_a, analise_resultado_b, kpis_projeto_a, kpis_projeto_b
+        )
 
         # Salvar dados em DataFrame
         data = {
             "Projeto": ["A", "B"],
-            "Orçamento R$": [f"{dados_projeto_a['orcamento']:.2f}", f"{dados_projeto_b['orcamento']:.2f}"],
-            "Funcionários Impactados": [dados_projeto_a['funcionarios'], dados_projeto_b['funcionarios']],
-            "Duração (meses)": [dados_projeto_a['duracao'], dados_projeto_b['duracao']],
-            "Custo de Treinamento R$": [f"{dados_projeto_a['custo_treinamento']:.2f}", f"{dados_projeto_b['custo_treinamento']:.2f}"],
-            "Custo de Implementação R$": [f"{dados_projeto_a['custo_implementacao']:.2f}", f"{dados_projeto_b['custo_implementacao']:.2f}"],
-            "Economia de Custos R$": [f"{dados_projeto_a['economia_custos']:.2f}", f"{dados_projeto_b['economia_custos']:.2f}"],
-            "Aumento de Receita R$": [f"{dados_projeto_a['aumento_receita']:.2f}", f"{dados_projeto_b['aumento_receita']:.2f}"],
-            "Taxa de Desconto (%)": [f"{dados_projeto_a['taxa_desconto']:.2f}%", f"{dados_projeto_b['taxa_desconto']:.2f}%"],
-            "Risco de Falha (%)": [f"{dados_projeto_a['risco_falha']:.2f}%", f"{dados_projeto_b['risco_falha']:.2f}%"],
-            "ROI (%)": [kpis_projeto_a['ROI'], kpis_projeto_b['ROI']],
-            "VPL R$": [kpis_projeto_a['VPL'], kpis_projeto_b['VPL']],
-            "Investimento Total R$": [kpis_projeto_a['Investimento Total'], kpis_projeto_b['Investimento Total']],
-            "Retorno Total R$": [kpis_projeto_a['Retorno Total'], kpis_projeto_b['Retorno Total']]
+            "Orçamento R$": [
+                f"{dados_projeto_a['orcamento']:.2f}",
+                f"{dados_projeto_b['orcamento']:.2f}",
+            ],
+            "Funcionários Impactados": [
+                dados_projeto_a["funcionarios"],
+                dados_projeto_b["funcionarios"],
+            ],
+            "Duração (meses)": [dados_projeto_a["duracao"], dados_projeto_b["duracao"]],
+            "Custo de Treinamento R$": [
+                f"{dados_projeto_a['custo_treinamento']:.2f}",
+                f"{dados_projeto_b['custo_treinamento']:.2f}",
+            ],
+            "Custo de Implementação R$": [
+                f"{dados_projeto_a['custo_implementacao']:.2f}",
+                f"{dados_projeto_b['custo_implementacao']:.2f}",
+            ],
+            "Economia de Custos R$": [
+                f"{dados_projeto_a['economia_custos']:.2f}",
+                f"{dados_projeto_b['economia_custos']:.2f}",
+            ],
+            "Aumento de Receita R$": [
+                f"{dados_projeto_a['aumento_receita']:.2f}",
+                f"{dados_projeto_b['aumento_receita']:.2f}",
+            ],
+            "Taxa de Desconto (%)": [
+                f"{dados_projeto_a['taxa_desconto']:.2f}%",
+                f"{dados_projeto_b['taxa_desconto']:.2f}%",
+            ],
+            "Risco de Falha (%)": [
+                f"{dados_projeto_a['risco_falha']:.2f}%",
+                f"{dados_projeto_b['risco_falha']:.2f}%",
+            ],
+            "ROI (%)": [kpis_projeto_a["ROI"], kpis_projeto_b["ROI"]],
+            "VPL R$": [kpis_projeto_a["VPL"], kpis_projeto_b["VPL"]],
+            "Investimento Total R$": [
+                kpis_projeto_a["Investimento Total"],
+                kpis_projeto_b["Investimento Total"],
+            ],
+            "Retorno Total R$": [
+                kpis_projeto_a["Retorno Total"],
+                kpis_projeto_b["Retorno Total"],
+            ],
         }
         df = pd.DataFrame(data)
 
@@ -341,17 +490,21 @@ elif menu == "Calculadora de ROI":
             st.write("Projeto A")
             kpi_df_a = pd.DataFrame([kpis_projeto_a])
             st.table(kpi_df_a)
-            st.latex(r"""
+            st.latex(
+                r"""
                 ROI=\frac{Retorno - Investimento}{Investimento} \times 100
-            """)
+            """
+            )
 
         with col_kpi_b:
             st.write("Projeto B")
             kpi_df_b = pd.DataFrame([kpis_projeto_b])
             st.table(kpi_df_b)
-            st.latex(r"""
+            st.latex(
+                r"""
                 VPL=\sum_{t=0}^{n} \frac{Fluxo\ de\ Caixa_t}{(1 + Taxa\ de\ Desconto)^t}
-            """)
+            """
+            )
 
         st.subheader("Análises dos Projetos 🧐")
         col_analise_a, col_analise_b = st.columns(2)
@@ -370,7 +523,7 @@ elif menu == "Calculadora de ROI":
 
 elif menu == "Sobre":
     st.title("Sobre o ROI Vision 💡")
-    st.write("Desenvolvido por: Julio Okuda")
+    st.write("Desenvolvido por: ------")
     st.write("Usando:")
     st.write("- Streamlit")
     st.write("- Azure OpenAI")
@@ -380,6 +533,12 @@ elif menu == "Sobre":
     st.write("- Numpy")
     st.write("- Dotenv")
     st.write("© 2025 Todos os direitos reservados")
-    st.write("### Me encontre:")
-    st.write("- [LinkedIn](https://www.linkedin.com/in/juliookuda/)")
-    st.write("- [GitHub](https://github.com/Jcnok)")
+    st.write("### Contatos:")
+    st.write("- [LinkedIn-Julio Okuda](https://www.linkedin.com/in/juliookuda/)")
+    st.write("- [GitHub- Julio Okuda](https://github.com/Jcnok)")
+    st.write("- [LinkedIn-Rodrigo Tenório](https://www.linkedin.com/in//)")
+    st.write("- [GitHub- Rodrigo Tenório](https://github.com/)")
+    st.write("- [LinkedIn-Luiz Felipe](https://www.linkedin.com/in//)")
+    st.write("- [GitHub-Luiz Felipe](https://github.com/)")
+    st.write("- [LinkedIn-João Breno](https://www.linkedin.com/in//)")
+    st.write("- [GitHub-João Breno](https://github.com/)")

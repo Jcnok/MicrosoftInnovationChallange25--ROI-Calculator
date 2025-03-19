@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "ntt-data-engenharia-de-dados-com-python"
+name = "Hackathon Microsoft Innovation Challange 2025 - ROI Calculator"
 version = "0.1.0"
 description = ""
 authors = ["Julio Okuda <julio.okuda@gmail.com>"]
@@ -7,7 +7,10 @@ license = "MIT"
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = ">=3.12,<3.13"
+streamlit = "^1.43.2"
+matplotlib = "^3.10.1"
+crewai = "^0.108.0"
 
 
 [tool.poetry.group.dev.dependencies]

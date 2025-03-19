@@ -159,4 +159,6 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 *.md:Zone.Identifier
-poc/ # pasta com modelos de testes
+#pasta com modelos de testes
+.poc
+
