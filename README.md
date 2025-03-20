@@ -87,7 +87,7 @@ A calculadora utiliza a API Azure OpenAI GPT-4o mini para analisar dados de proj
 1. Clone o repositório:
 
 ```bash
-git clone [https://github.com/Jcnok/MicrosoftInnovationChallange25--ROI-Calculator.git](https://github.com/Jcnok/MicrosoftInnovationChallange25--ROI-Calculator.git)
+git clone https://github.com/Jcnok/MicrosoftInnovationChallange25--ROI-Calculator.git
 ```
 
 2. Navegue até a pasta do repositório:
