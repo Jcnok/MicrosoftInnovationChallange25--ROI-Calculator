@@ -99,7 +99,7 @@ cd MicrosoftInnovationChallange25--ROI-Calculator
 3. Instale o Poetry (caso não tenha):
 
 ```bash
-curl -sSL [https://install.python-poetry.org](https://install.python-poetry.org) | python3 -
+curl -sSL https://install.python-poetry.org | python3 - 
 ```
 
 4. Configure o ambiente virtual e instale as dependências:
