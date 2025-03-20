@@ -25,7 +25,7 @@ roi_vision/
 ├── poetry.lock                # Lockfile do Poetry
 ├── pyproject.toml             # Configuração do Poetry
 └── README.md                  # Este arquivo
-
+```
 ##  Índice
 
 - [Estrutura do Projeto](#estrutura-do-projeto)
