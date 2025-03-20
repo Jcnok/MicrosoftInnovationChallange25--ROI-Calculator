@@ -1,107 +1,174 @@
-# Start Project Template
+<div align="center">
+  <h1>ROI Vision: Análise Inteligente de Projetos</h1>
+  <p>Uma ferramenta inteligente para análise e comparação de projetos utilizando IA.</p>
+  <img src="https://img.shields.io/badge/Python-3.12+-blue.svg" alt="Python Version">
+  <img src="https://img.shields.io/badge/Streamlit-1.39.0+-red.svg" alt="Streamlit Version">
+  <img src="https://img.shields.io/badge/License-MIT-green.svg" alt="License">
+  <img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png" width="100%">
+  <img src="https://img.shields.io/badge/Azure%20OpenAI-blueviolet.svg" alt="Azure OpenAI">  <img src="https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png" width="100%">
+</div>
 
-## Requisitos
-
-- Python 3.12
-- Poetry
-
-## Como usar
-
-### 1. Instale as dependências
-
-```bash
-poetry install
-```
-
-### 2. Rodar os comandos de formatação e linting
+##  Estrutura do Projeto
 
 ```bash
-poetry run task format
-```
+roi_vision/
+├── img/                       # Imagens do projeto
+├── teste/                     # Testes com pytest
+├── src/                       # Código fonte
+│   └── app.py                 # Aplicação principal
+├── .env.example               # Exemplo de variáveis de ambiente
+├── .flake8                    # Configuração do flake8
+├── .gitignore                 # Arquivos ignorados pelo Git
+├── .pre-commit-config.yaml    # Configuração do pre-commit
+├── .python-version            # Versão do Python utilizada
+├── LICENSE                    # Licença do projeto
+├── poetry.lock                # Lockfile do Poetry
+├── pyproject.toml             # Configuração do Poetry
+└── README.md                  # Este arquivo
 
-### 3. Rodar os testes
+##  Índice
+
+- [Estrutura do Projeto](#estrutura-do-projeto)
+- [Índice](#índice)
+- [Sobre o Projeto](#sobre-o-projeto)
+  - [Calculadora de ROI Comparativa com IA](#calculadora-de-roi-comparativa-com-ia)
+- [Tecnologias Utilizadas](#tecnologias-utilizadas)
+- [Requisitos](#requisitos)
+- [⚙️ Instalação e Execução](#️-instalação-e-execução)
+  - [Execução Local com Poetry](#execução-local-com-poetry)
+- [Conclusão e Aprendizados](#conclusão-e-aprendizados)
+  - [Próximos Passos:](#próximos-passos)
+
+##  Sobre o Projeto
+
+[ Voltar ao índice](#-índice)
+
+"ROI Vision: Análise Inteligente de Projetos" é uma aplicação web desenvolvida para o Hackathon da Microsoft, que utiliza inteligência artificial para calcular e comparar KPIs financeiros de projetos. A ferramenta visa auxiliar na tomada de decisões estratégicas, fornecendo insights valiosos e recomendações acionáveis.
+
+###  Calculadora de ROI Comparativa com IA
+
+[ Voltar ao índice](#-índice)
+
+A calculadora utiliza a API Azure OpenAI GPT-4o mini para analisar dados de projetos e calcular KPIs como ROI e VPL. Características principais:
+
+- Interface intuitiva para inserção de dados de projetos
+- Cálculo automático de KPIs financeiros
+- Análise comparativa entre projetos
+- Geração de insights e recomendações por IA
+- Visualização de dados em tabelas e gráficos
+
+##  Tecnologias Utilizadas
+
+[ Voltar ao índice](#-índice)
+
+**Core:**
+
+- Python 3.12+
+- Streamlit 1.39.0+
+- Azure OpenAI
+- CrewAI
+
+
+##  Requisitos
+
+[ Voltar ao índice](#-índice)
+
+- Python 3.12 ou superior
+- Poetry para gerenciamento de dependências
+- Conta Azure com acesso à API Azure OpenAI
+- Variáveis de ambiente configuradas corretamente
+
+## ⚙️ Instalação e Execução
+
+###  Execução Local com Poetry
+
+[ Voltar ao índice](#-índice)
+
+1. Clone o repositório:
 
 ```bash
-poetry run pytest
+git clone [https://github.com/Jcnok/MicrosoftInnovationChallange25--ROI-Calculator.git](https://github.com/Jcnok/MicrosoftInnovationChallange25--ROI-Calculator.git)
 ```
 
-## Estrutura do Projeto
+2. Navegue até a pasta do repositório:
 
-- `src/`: Código fonte do projeto
-- `tests/`: Testes automatizados
-
-## Integração Contínua (CI)
-
-Este projeto utiliza GitHub Actions para Integração Contínua (CI). A configuração do CI está definida no arquivo `.github/workflows/python-ci.yml`, que automatiza o processo de teste e verificação de código. Abaixo estão os detalhes sobre como o CI foi configurado:
-
-### 1. Configuração do CI
-
-O arquivo `.github/workflows/python-ci.yml` define um workflow que executa automaticamente o pipeline de CI para cada push para a branch `main` e para cada pull request. O workflow inclui os seguintes passos:
-
-- **Verificação de Código**: Usa ferramentas de formatação e linting (`isort`, `black`, `flake8`) para garantir que o código esteja bem formatado e siga as melhores práticas.
-- **Execução de Testes**: Executa os testes automatizados com `pytest` para garantir que o código esteja funcionando conforme o esperado.
-
-### 2. Como Funciona
-
-- **Push para a Branch `main`**: Sempre que você faz um push para a branch `main`, o GitHub Actions executa o pipeline de CI definido no arquivo `python-ci.yml`. Isso inclui a instalação das dependências, formatação e linting do código, e a execução dos testes.
-- **Pull Requests**: Sempre que um pull request é criado ou atualizado, o pipeline de CI é executado para garantir que as mudanças propostas não quebrem o código existente e estejam em conformidade com as regras de formatação e linting.
-
-### 3. Arquivo de Workflow CI
-
-Aqui está a configuração do workflow para referência:
-
-```yaml
-name: Python CI
-
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-
-jobs:
-  test:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.12  # Atualize para a versão atual do Python que você está usando
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install poetry
-          poetry install
-
-      - name: Run Linting
-        run: |
-          poetry run task format
-
-      - name: List installed packages
-        run: |
-          poetry show
-
-      - name: Run Tests
-        run: |
-          poetry run pytest
+```bash
+cd MicrosoftInnovationChallange25--ROI-Calculator
 ```
 
-### 4. Como Replicar a Configuração
+3. Instale o Poetry (caso não tenha):
 
-Para replicar esta configuração de CI em outro projeto, siga estes passos:
+```bash
+curl -sSL [https://install.python-poetry.org](https://install.python-poetry.org) | python3 -
+```
 
-1. **Crie o Arquivo de Workflow**:
-  - No repositório do seu projeto, crie um diretório `.github/workflows/` se ainda não existir.
-  - Adicione um arquivo chamado `python-ci.yml` dentro deste diretório.
+4. Configure o ambiente virtual e instale as dependências:
 
-2. **Adicione a Configuração ao Arquivo de Workflow**:
-  - Copie e cole a configuração YAML fornecida acima no arquivo `python-ci.yml`.
+```bash
+poetry install --no-root
+```
 
-3. **Configuração do Projeto**:
-  - Certifique-se de que o seu projeto utiliza `poetry` e que os comandos de formatação, linting e testes estão configurados corretamente no seu `pyproject.toml`.
+5. Configure as variáveis de ambiente:
 
-4. **Commit e Push**:
-  - Faça um commit e push das alterações para o repositório remoto. O GitHub Actions começará a executar o pipeline automaticamente com base na configuração fornecida..
+```bash
+cp .env.example .env
+```
+
+6. Edite o arquivo `.env` com suas credenciais:
+
+```env
+AZURE_OPENAI_KEY=sua_chave_openai
+AZURE_OPENAI_ENDPOINT=seu_endpoint_openai
+#Exemplo:
+# AZURE_OPENAI_KEY=2008107cd66943f5b1a99ac461234567
+# AZURE_OPENAI_ENDPOINT=https://challange-microsofit-east1.openai.azure.com
+```
+
+7. Execute a aplicação:
+
+```bash
+poetry run streamlit run src/app.py
+```
+
+8. Acesse a aplicação no navegador:
+
+```bash
+http://localhost:8501
+```
+
+##  Conclusão e Aprendizados
+
+[ Voltar ao índice](#-índice)
+
+Este projeto foi uma excelente oportunidade para aplicar conhecimentos em IA e desenvolvimento web, criando uma ferramenta útil para análise de projetos.
+
+###  Próximos Passos:
+
+- Implementar visualizações gráficas dos KPIs
+- Adicionar suporte a mais modelos de IA
+- Criar um painel de controle com histórico de projetos
+- Otimizar o desempenho da aplicação
+- Adicionar atributos como Setor e Região para análise detalhada
+- Utilizar azure machine learning para treinamento de modelos
+- Salvar os dados em um banco de dados para persistência
+
+
+Este projeto demonstra o potencial da IA para transformar a análise de projetos e auxiliar na tomada de decisões estratégicas.
+
+---
+
+<div align="center">
+  <p>Desenvolvido por:
+   Julio Okuda
+  </p>
+  <p>
+   Colaboradores:
+   Rodrigo Tenório, Luiz Felipe, João Breno </p>
+  <p>LindedIn • Github:</p>
+  <p><a href="https://www.linkedin.com/in/juliookuda/">Julio Okuda</a></p>
+  <p><a href="https://github.com/rodten23">Rodrigo Tenório</a></p>
+  <p><a href="https://github.com/luizfbom">Luiz Felipe</a></p>
+  <p><a href="https://github.com/joaobreno4">João Breno</a></p>
+</div>
+```
+
