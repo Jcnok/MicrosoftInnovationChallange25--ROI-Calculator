@@ -321,6 +321,11 @@ elif menu == "Calculadora de ROI":
             key="risco_falha_a",
             help="Probabilidade estimada de falha do projeto.",
         )
+        dificuldade_gestao_mudanca_a = st.selectbox(
+            "Dificuldade para Gestão de Mudança ⚠️", ["Fácil", "Médio", "Difícil"],
+            key="dificuldade_gestao_mudanca_a",
+            help="Provável nível de dificuldade para a gestão de mudança.",
+        )
 
     # Dados do Projeto B na segunda coluna
     with col2:
@@ -379,6 +384,11 @@ elif menu == "Calculadora de ROI":
             key="risco_falha_b",
             help="Probabilidade estimada de falha do projeto.",
         )
+        dificuldade_gestao_mudanca_b = st.selectbox(
+            "Dificuldade para Gestão de Mudança ⚠️", ["Fácil", "Médio", "Difícil"],
+            key="dificuldade_gestao_mudanca_b",
+            help="Provável nível de dificuldade para a gestão de mudança.",
+        )
 
     dados_projeto_a = {
         "orcamento": orcamento_a,
@@ -390,6 +400,7 @@ elif menu == "Calculadora de ROI":
         "aumento_receita": aumento_receita_a,
         "taxa_desconto": taxa_desconto_a,
         "risco_falha": risco_falha_a,
+        "gestao_mudanca": dificuldade_gestao_mudanca_a,
     }
 
     dados_projeto_b = {
@@ -402,6 +413,7 @@ elif menu == "Calculadora de ROI":
         "aumento_receita": aumento_receita_b,
         "taxa_desconto": taxa_desconto_b,
         "risco_falha": risco_falha_b,
+        "gestao_mudanca": dificuldade_gestao_mudanca_b,
     }
 
     if st.button("Analisar Projetos ✅"):
@@ -461,6 +473,10 @@ elif menu == "Calculadora de ROI":
             "Risco de Falha (%)": [
                 f"{dados_projeto_a['risco_falha']:.2f}%",
                 f"{dados_projeto_b['risco_falha']:.2f}%",
+            ],
+            "Gestão de Mudança": [
+                dados_projeto_a['gestao_mudanca'],
+                dados_projeto_b['gestao_mudanca'],
             ],
             "ROI (%)": [kpis_projeto_a["ROI"], kpis_projeto_b["ROI"]],
             "VPL R$": [kpis_projeto_a["VPL"], kpis_projeto_b["VPL"]],
@@ -523,7 +539,8 @@ elif menu == "Calculadora de ROI":
 
 elif menu == "Sobre":
     st.title("Sobre o ROI Vision 💡")
-    st.write("Desenvolvido por: ------")
+    st.write("Idealização e Desenvolvimento: Julio Okuda")
+    st.write("Apoio e Revisão: Rodrigo Tenório")
     st.write("Usando:")
     st.write("- Streamlit")
     st.write("- Azure OpenAI")
@@ -534,11 +551,11 @@ elif menu == "Sobre":
     st.write("- Dotenv")
     st.write("© 2025 Todos os direitos reservados")
     st.write("### Contatos:")
-    st.write("- [LinkedIn-Julio Okuda](https://www.linkedin.com/in/juliookuda/)")
-    st.write("- [GitHub- Julio Okuda](https://github.com/Jcnok)")
-    st.write("- [LinkedIn-Rodrigo Tenório](https://www.linkedin.com/in//)")
-    st.write("- [GitHub- Rodrigo Tenório](https://github.com/)")
-    st.write("- [LinkedIn-Luiz Felipe](https://www.linkedin.com/in//)")
-    st.write("- [GitHub-Luiz Felipe](https://github.com/)")
-    st.write("- [LinkedIn-João Breno](https://www.linkedin.com/in//)")
-    st.write("- [GitHub-João Breno](https://github.com/)")
+    st.write("- [LinkedIn - Julio Okuda](https://www.linkedin.com/in/juliookuda/)")
+    st.write("- [GitHub - Julio Okuda](https://github.com/Jcnok)")
+    st.write("- [LinkedIn - Rodrigo Tenório](https://www.linkedin.com/in/rodrigoalvestenorio)")
+    st.write("- [GitHub - Rodrigo Tenório](https://github.com/rodten23)")
+    st.write("- [LinkedIn - Luiz Felipe](https://www.linkedin.com/in//)")
+    st.write("- [GitHub - Luiz Felipe](https://github.com/)")
+    st.write("- [LinkedIn - João Breno](https://www.linkedin.com/in//)")
+    st.write("- [GitHub - João Breno](https://github.com/)")
