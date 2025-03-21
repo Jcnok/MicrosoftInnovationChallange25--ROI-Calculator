@@ -116,7 +116,7 @@ class ResultAnalyzerAgent:
             goal="Analisar os KPIs e dados de projetos para fornecer insights valiosos e recomendações acionáveis. Forneça análises concisas e bem formatadas, evitando quebras de linha desnecessárias.",
             verbose=True,
             llm=llm,
-            backstory="Você é um analista de projetos experiente, com um olhar crítico para detalhes e uma capacidade de transformar dados em estratégias eficazes.",
+            backstory="Você é um analista de projetos experiente, com um olhar crítico para detalhes e uma capacidade de transformar dados em estratégias eficazes. Ao final, deve dar ênfase à Gestão de Mudança e apontar riscos devivo ao ramo de atuação escolhido.",
         )
 
     def create_analysis_task(self, kpis: dict, data: dict) -> Task:
@@ -138,6 +138,8 @@ class ResultAnalyzerAgent:
         aumento_receita = data["aumento_receita"]
         taxa_desconto = data["taxa_desconto"]
         risco_falha = data["risco_falha"]
+        gestao_mudanca = data["gestao_mudanca"]
+        ramo_atuacao = data["ramo_atuacao"]
 
         return Task(
             description=f"""Analise os seguintes KPIs do projeto:
@@ -156,6 +158,8 @@ class ResultAnalyzerAgent:
             Aumento de Receita: {aumento_receita:.2f}
             Taxa de Desconto: {taxa_desconto}
             Risco de Falha: {risco_falha}
+            Gestão de Mudanças: dificuldade {gestao_mudanca}
+            Ramo de Atuação: {ramo_atuacao}
 
             Onde houver o símbolo de R$ substitua por R\$ para formatação correta.
             Forneça insights sobre a saúde financeira do projeto, identifique problemas potenciais, sugira melhorias e forneça recomendações acionáveis.
@@ -326,6 +330,11 @@ elif menu == "Calculadora de ROI":
             key="dificuldade_gestao_mudanca_a",
             help="Provável nível de dificuldade para a gestão de mudança.",
         )
+        ramo_atuacao_a = st.selectbox(
+            "Ramo de atuação ⚠️", ["Serviços - Alimentação", "Serviços - Educação", "Serviços - Saúde", "Indústria - Gráfica", "Indústria - Automotiva", "Indústria - Têxtil", "Agronomia", "Geração de Energia", "TI - IA"],
+            key="ramo_atuacao_a",
+            help="Ramo de atuação do projeto.",
+        )
 
     # Dados do Projeto B na segunda coluna
     with col2:
@@ -389,6 +398,11 @@ elif menu == "Calculadora de ROI":
             key="dificuldade_gestao_mudanca_b",
             help="Provável nível de dificuldade para a gestão de mudança.",
         )
+        ramo_atuacao_b = st.selectbox(
+            "Ramo de atuação ⚠️", ["Serviços - Alimentação", "Serviços - Educação", "Serviços - Saúde", "Indústria - Gráfica", "Indústria - Automotiva", "Indústria - Têxtil", "Agronomia", "Geração de Energia", "TI - IA"],
+            key="ramo_atuacao_b",
+            help="Ramo de atuação do projeto.",
+        )
 
     dados_projeto_a = {
         "orcamento": orcamento_a,
@@ -401,6 +415,7 @@ elif menu == "Calculadora de ROI":
         "taxa_desconto": taxa_desconto_a,
         "risco_falha": risco_falha_a,
         "gestao_mudanca": dificuldade_gestao_mudanca_a,
+        "ramo_atuacao": ramo_atuacao_a,
     }
 
     dados_projeto_b = {
@@ -414,6 +429,7 @@ elif menu == "Calculadora de ROI":
         "taxa_desconto": taxa_desconto_b,
         "risco_falha": risco_falha_b,
         "gestao_mudanca": dificuldade_gestao_mudanca_b,
+        "ramo_atuacao": ramo_atuacao_b,
     }
 
     if st.button("Analisar Projetos ✅"):
@@ -477,6 +493,10 @@ elif menu == "Calculadora de ROI":
             "Gestão de Mudança": [
                 dados_projeto_a['gestao_mudanca'],
                 dados_projeto_b['gestao_mudanca'],
+            ],
+            "Ramo": [
+                dados_projeto_a['ramo_atuacao'],
+                dados_projeto_b['ramo_atuacao'],
             ],
             "ROI (%)": [kpis_projeto_a["ROI"], kpis_projeto_b["ROI"]],
             "VPL R$": [kpis_projeto_a["VPL"], kpis_projeto_b["VPL"]],
