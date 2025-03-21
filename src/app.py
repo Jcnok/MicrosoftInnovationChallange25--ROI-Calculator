@@ -321,6 +321,11 @@ elif menu == "Calculadora de ROI":
             key="risco_falha_a",
             help="Probabilidade estimada de falha do projeto.",
         )
+        dificuldade_gestao_mudanca_a = st.selectbox(
+            "Dificuldade para Gestão de Mudança ⚠️", ["Fácil", "Médio", "Difícil"],
+            key="dificuldade_gestao_mudanca_a",
+            help="Provável nível de dificuldade para a gestão de mudança.",
+        )
 
     # Dados do Projeto B na segunda coluna
     with col2:
@@ -379,6 +384,11 @@ elif menu == "Calculadora de ROI":
             key="risco_falha_b",
             help="Probabilidade estimada de falha do projeto.",
         )
+        dificuldade_gestao_mudanca_b = st.selectbox(
+            "Dificuldade para Gestão de Mudança ⚠️", ["Fácil", "Médio", "Difícil"],
+            key="dificuldade_gestao_mudanca_b",
+            help="Provável nível de dificuldade para a gestão de mudança.",
+        )
 
     dados_projeto_a = {
         "orcamento": orcamento_a,
@@ -390,6 +400,7 @@ elif menu == "Calculadora de ROI":
         "aumento_receita": aumento_receita_a,
         "taxa_desconto": taxa_desconto_a,
         "risco_falha": risco_falha_a,
+        "gestao_mudanca": dificuldade_gestao_mudanca_a,
     }
 
     dados_projeto_b = {
@@ -402,6 +413,7 @@ elif menu == "Calculadora de ROI":
         "aumento_receita": aumento_receita_b,
         "taxa_desconto": taxa_desconto_b,
         "risco_falha": risco_falha_b,
+        "gestao_mudanca": dificuldade_gestao_mudanca_b,
     }
 
     if st.button("Analisar Projetos ✅"):
@@ -461,6 +473,10 @@ elif menu == "Calculadora de ROI":
             "Risco de Falha (%)": [
                 f"{dados_projeto_a['risco_falha']:.2f}%",
                 f"{dados_projeto_b['risco_falha']:.2f}%",
+            ],
+            "Gestão de Mudança": [
+                dados_projeto_a['gestao_mudanca'],
+                dados_projeto_b['gestao_mudanca'],
             ],
             "ROI (%)": [kpis_projeto_a["ROI"], kpis_projeto_b["ROI"]],
             "VPL R$": [kpis_projeto_a["VPL"], kpis_projeto_b["VPL"]],
