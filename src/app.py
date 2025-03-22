@@ -560,8 +560,10 @@ elif menu == "Calculadora de ROI":
 elif menu == "Sobre":
     st.title("Sobre o ROI Vision 💡")
     st.subheader("Limitações:")
-    st.write("- Toda análise apresentada por este sistema é feita por IAm sendo recomendado que uma equipe humana faça revisão, afim de garantir a precisão das análises.")
-    st.write("- Informamos que nenhum dado do usuário é armazenado e que apenas o nosso parceiro de IA tem acesso aos dados informados, seguindo as Leis e recomendações para tratamento de dados.")
+    st.write("- Toda análise apresentada por este sistema é feita por IA sendo recomendado que uma equipe humana faça revisão, afim de garantir a precisão das análises.")
+    st.write('- Ao usar o "ROI Vision" o usuário está ciente que ferramenta pode apresentar inconsistências, seja por suas limitações, ou também devido a complexidade dos dados informados pelo usuário.')
+    st.write("- Informamos que nenhum dado do usuário é armazenado e que apenas o nosso parceiro de IA tem acesso aos dados informados, seguindo as leis e recomendações para tratamento de dados.")
+    st.write("- Incentivamos os usuários a reportar a nossa equipe as falhas, dificuldades, críticas e sugestões, assim como nos comprometemos a avaliar cada caso e tomar as tratativas necessárias o mais rápido possível.")
     st.subheader('Equipe "BlueSky Team":')
     st.write("Idealização e Desenvolvimento: JULIO OKUDA - [LinkedIn](https://www.linkedin.com/in/juliookuda/) - [GitHub](https://github.com/Jcnok)")
     st.write("Apoio e Revisão: RODRIGO ALVES TENÓRIO - [LinkedIn](https://www.linkedin.com/in/rodrigoalvestenorio) - [GitHub](https://github.com/rodten23)")
