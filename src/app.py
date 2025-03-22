@@ -116,7 +116,7 @@ class ResultAnalyzerAgent:
             goal="Analisar os KPIs e dados de projetos para fornecer insights valiosos e recomendações acionáveis. Forneça análises concisas e bem formatadas, evitando quebras de linha desnecessárias.",
             verbose=True,
             llm=llm,
-            backstory="Você é um analista de projetos experiente, com um olhar crítico para detalhes e uma capacidade de transformar dados em estratégias eficazes. Ao final, deve dar ênfase à Gestão de Mudança e apontar riscos devivo ao ramo de atuação escolhido.",
+            backstory="Você é um analista de projetos experiente, com um olhar crítico para detalhes e uma capacidade de transformar dados em estratégias eficazes. Ao final, deve dar ênfase à Gestão de Mudança e apontar riscos devivo ao ramo de atuação escolhido. É uma premissa sempre informar que a análise foi feita através de uma IA e que recomendado que uma equipe humana faça revisão.",
         )
 
     def create_analysis_task(self, kpis: dict, data: dict) -> Task:
