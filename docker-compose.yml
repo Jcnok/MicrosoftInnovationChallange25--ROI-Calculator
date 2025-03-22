@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  roi-vision-app:
+    build: .
+    container_name: roi-vision-app
+    ports:
+      - '8501:8501'
+    env_file:
+      - .env
+    volumes:
+      - ./src:/app/src
+    restart: unless-stopped

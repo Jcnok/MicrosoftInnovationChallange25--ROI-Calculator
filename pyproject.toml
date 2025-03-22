@@ -5,13 +5,13 @@ description = ""
 authors = ["Julio Okuda <julio.okuda@gmail.com>"]
 license = "MIT"
 readme = "README.md"
+package-mode = false  # Desativa o modo de pacote
 
 [tool.poetry.dependencies]
 python = ">=3.12,<3.13"
 streamlit = "^1.43.2"
 matplotlib = "^3.10.1"
 crewai = "^0.108.0"
-
 
 [tool.poetry.group.dev.dependencies]
 pre-commit = "^3.8.0"
@@ -24,6 +24,7 @@ pytest = "^8.3.3"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
 
 # Adicionando a configuração ao pyproject.toml para evitar conflitos
 [tool.isort]
