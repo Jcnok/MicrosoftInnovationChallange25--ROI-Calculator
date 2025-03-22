@@ -116,7 +116,7 @@ class ResultAnalyzerAgent:
             goal="Analisar os KPIs e dados de projetos para fornecer insights valiosos e recomendações acionáveis. Forneça análises concisas e bem formatadas, evitando quebras de linha desnecessárias.",
             verbose=True,
             llm=llm,
-            backstory="Você é um analista de projetos experiente, com um olhar crítico para detalhes e uma capacidade de transformar dados em estratégias eficazes. Ao final, deve dar ênfase à Gestão de Mudança e apontar riscos devivo ao ramo de atuação escolhido.",
+            backstory="Você é um analista de projetos experiente, com um olhar crítico para detalhes e uma capacidade de transformar dados em estratégias eficazes. Ao final, deve dar ênfase à Gestão de Mudança e apontar riscos devivo ao ramo de atuação escolhido. É uma premissa sempre informar que a análise foi feita através de uma IA e que recomendado que uma equipe humana faça revisão.",
         )
 
     def create_analysis_task(self, kpis: dict, data: dict) -> Task:
@@ -559,9 +559,17 @@ elif menu == "Calculadora de ROI":
 
 elif menu == "Sobre":
     st.title("Sobre o ROI Vision 💡")
-    st.write("Idealização e Desenvolvimento: Julio Okuda")
-    st.write("Apoio e Revisão: Rodrigo Tenório")
-    st.write("Usando:")
+    st.subheader("Limitações:")
+    st.write("- Toda análise apresentada por este sistema é feita por IA sendo recomendado que uma equipe humana faça revisão, afim de garantir a precisão das análises.")
+    st.write('- Ao usar o "ROI Vision" o usuário está ciente que ferramenta pode apresentar inconsistências, seja por suas limitações, ou também devido a complexidade dos dados informados pelo usuário.')
+    st.write("- Informamos que nenhum dado do usuário é armazenado e que apenas o nosso parceiro de IA tem acesso aos dados informados, seguindo as leis e recomendações para tratamento de dados.")
+    st.write("- Incentivamos os usuários a reportar a nossa equipe as falhas, dificuldades, críticas e sugestões, assim como nos comprometemos a avaliar cada caso e tomar as tratativas necessárias o mais rápido possível.")
+    st.subheader('Equipe "BlueSky Team":')
+    st.write("Idealização e Desenvolvimento: JULIO OKUDA - [LinkedIn](https://www.linkedin.com/in/juliookuda/) - [GitHub](https://github.com/Jcnok)")
+    st.write("Apoio e Revisão: RODRIGO ALVES TENÓRIO - [LinkedIn](https://www.linkedin.com/in/rodrigoalvestenorio) - [GitHub](https://github.com/rodten23)")
+    st.write("LUIZ FELIPE - [LinkedIn](https://www.linkedin.com/in/) - [GitHub](https://github.com/)")
+    st.write("JOÃO BRENO - [LinkedIn](https://www.linkedin.com/in/) - [GitHub](https://github.com/)")
+    st.subheader("Tecnologias utilizadas:")
     st.write("- Streamlit")
     st.write("- Azure OpenAI")
     st.write("- CrewAI")
@@ -570,12 +578,3 @@ elif menu == "Sobre":
     st.write("- Numpy")
     st.write("- Dotenv")
     st.write("© 2025 Todos os direitos reservados")
-    st.write("### Contatos:")
-    st.write("- [LinkedIn - Julio Okuda](https://www.linkedin.com/in/juliookuda/)")
-    st.write("- [GitHub - Julio Okuda](https://github.com/Jcnok)")
-    st.write("- [LinkedIn - Rodrigo Tenório](https://www.linkedin.com/in/rodrigoalvestenorio)")
-    st.write("- [GitHub - Rodrigo Tenório](https://github.com/rodten23)")
-    st.write("- [LinkedIn - Luiz Felipe](https://www.linkedin.com/in//)")
-    st.write("- [GitHub - Luiz Felipe](https://github.com/)")
-    st.write("- [LinkedIn - João Breno](https://www.linkedin.com/in//)")
-    st.write("- [GitHub - João Breno](https://github.com/)")
