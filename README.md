@@ -21,12 +21,14 @@ roi_vision/
 ├── .gitignore                  # Arquivos ignorados pelo Git
 ├── .pre-commit-config.yaml     # Configuração do pre-commit
 ├── .python-version             # Versão do Python utilizada
+├── docker-compose.yml          # Arquivo de Docker Compose
+├── Dockerfile                  # Arquivo de Docker
 ├── LICENSE                     # Licença do projeto
 ├── poetry.lock                 # Lockfile do Poetry
-├── Dockerfile                  # Arquivo de Docker
 ├── pyproject.toml              # Configuração do Poetry
-├── docker-compose.yml          # Arquivo de Docker Compose
-└── README.md                   # Este arquivo
+├── README.md                   # Este arquivo
+├── requirements.txt            # Arquivo de dependências
+└── ROI Vision.pptx             # Apresentação do projeto
 ```
 
 ##  Índice
