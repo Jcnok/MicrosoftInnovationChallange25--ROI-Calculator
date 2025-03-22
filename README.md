@@ -57,6 +57,15 @@ A calculadora utiliza a API Azure OpenAI GPT-4o mini para analisar dados de proj
 - Geração de insights e recomendações por IA
 - Visualização de dados em tabelas e gráficos
 
+###  Limitações
+
+[ Voltar ao índice](#-índice)
+
+- Toda análise apresentada por este sistema é feita por IA sendo recomendado que uma equipe humana faça revisão, afim de garantir a precisão das análises.
+- Ao usar o "ROI Vision" o usuário está ciente que ferramenta pode apresentar inconsistências, seja por suas limitações, ou também devido a complexidade dos dados informados pelo usuário.
+- Informamos que nenhum dado do usuário é armazenado e que apenas o nosso parceiro de IA tem acesso aos dados informados, seguindo as leis e recomendações para tratamento de dados.
+- Incentivamos os usuários a reportar a nossa equipe as falhas, dificuldades, críticas e sugestões, assim como nos comprometemos a avaliar cada caso e tomar as tratativas necessárias o mais rápido possível.
+
 ##  Tecnologias Utilizadas
 
 [ Voltar ao índice](#-índice)
