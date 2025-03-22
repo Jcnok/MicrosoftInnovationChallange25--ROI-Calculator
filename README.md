@@ -202,11 +202,11 @@ Este projeto demonstra o potencial da IA para transformar a análise de projetos
   </p>
   <p>
     Colaboradores:
-    Rodrigo Alves Tenório, Luiz Felipe, João Breno </p>
-  <p>LindedIn • Github:</p>
+    Rodrigo Alves Tenório, Luiz Felipe Bom, João Breno </p>
+  <p>LindedIn</p>
   <p><a href="https://www.linkedin.com/in/juliookuda/">Julio Okuda</a></p>
   <p><a href="https://www.linkedin.com/in/rodrigoalvestenorio">Rodrigo Alves Tenório</a></p>
-  <p><a href="https://github.com/luizfbom">Luiz Felipe</a></p>
-  <p><a href="https://github.com/joaobreno4">João Breno</a></p>
+  <p><a href="https://www.linkedin.com/in/luiz-felipe-bom/">Luiz Felipe Bom</a></p>
+  <p><a href="https:/www.linkedin.com/in/joão-breno4/">João Breno</a></p>
 </div>
 
